@@ -5,10 +5,17 @@
  */
 package Commands;
 
+import ObjectStore.UserStore;
+
 /**
  *
  * @author TJ
  */
-public class RegisterCommand {
+public class RegisterCommand implements Command {
+
+    @Override
+    public String execute() {
+        return "woijfiojw";
+    }
     
 }
