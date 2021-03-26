@@ -5,6 +5,8 @@
  */
 package Commands;
 
+import ObjectStore.UserStore;
+
 /**
  *
  * @author TJ
@@ -13,7 +15,10 @@ public class LoginCommand implements Command{
 
     @Override
     public String execute() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        UserStore inst = new UserStore();
+        inst.register("qwe", "qweqwe");
+        
+        return "Hello World!";
     }
     
 }

@@ -5,6 +5,12 @@
  */
 package emailservice;
 
+import Commands.Command;
+import Commands.LoginCommand;
+import Commands.RegisterCommand;
+import ObjectStore.EmailStore;
+import ObjectStore.UserStore;
+
 /**
  *
  * @author TJ
@@ -15,7 +21,15 @@ public class EmailService {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Command command = new LoginCommand();
+        System.out.println(command.execute());
+        
+        UserStore users = new UserStore();
+        users.login("Test", "123456");
+        users.test();
+        
+        
+        String test = "LOGIN%%";
     }
     
 }

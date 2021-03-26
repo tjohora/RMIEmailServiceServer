@@ -12,15 +12,21 @@ import java.util.HashMap;
  * @author TJ
  */
 public class UserStore {
-    HashMap<String, User> users;
+    public static HashMap<String, User> users;
     
     public UserStore() {
         ReadFromFile();
     }
     
+    static{
+        users = new HashMap<>();
+    }
+    
     //need to use synchronise keyword
 
     public boolean register(String emailAddress, String password) {
+        User user = new User(emailAddress, password);
+        users.put(emailAddress, user);
         //check if emailAddress (Key) exists
         //if Key does exist, it is unique, add user to map, and add all email maps (sent, recieved, new, spam). return true
         //else return false     
@@ -31,6 +37,9 @@ public class UserStore {
     }
     
     public boolean login(String emailAddress, String password){
+        User user = new User(emailAddress, password);
+        users.put(emailAddress, user);
+        
         //check if emailAddress (Key) exists
         //if Key does exist, check password value matches
         //else return false
@@ -43,11 +52,16 @@ public class UserStore {
         return false;
     }
     
+    public void test(){
+        System.out.println(users.toString());
+    }
+    
     public void logout(){
         //will close the system with a goodbye message
     }
     
     public void ReadFromFile(){
+        
         //code that will pull data out of a file and save to the map
     }
     
