@@ -17,13 +17,28 @@ public class Email {
     private String sendDate; 
     private String subject;
     private String content;
+    private String recepiant;
 
-    public Email(String sender, String sendDate, String subject, String content) {
+    public Email(String sender, String sendDate, String subject, String content,String recepiant) {
         this.sender = sender;
         this.sendDate = sendDate;
         this.subject = subject;
         this.content = content;
+        this.recepiant=recepiant;
     }
+
+    public Email() {
+    }
+
+    public String getRecepiant() {
+        return recepiant;
+    }
+
+    public void setRecepiant(String recepiant) {
+        this.recepiant = recepiant;
+    }
+    
+    
 
     public String getSender() {
         return sender;
@@ -96,7 +111,12 @@ public class Email {
 
     @Override
     public String toString() {
-        return "Email{" + "sender=" + sender + ", sendDate=" + sendDate + ", subject=" + subject + ", content=" + content + '}';
+        return "Email{" + "sender=" + sender + ", sendDate=" + sendDate + ", subject=" + subject + ", content=" + content + ", recepiant=" + recepiant + '}';
+    }
+
+    
+    public String toStringWrite() {
+        return sender + "%%" + sendDate + "%%" + subject + "%%" + content + "%%" + recepiant;
     }
     
     

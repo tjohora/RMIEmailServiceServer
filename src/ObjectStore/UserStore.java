@@ -5,6 +5,7 @@
  */
 package ObjectStore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -16,11 +17,15 @@ public class UserStore {
     public static HashMap<String, User> users;
 
     public UserStore() {
-        ReadFromFile();
+         users = new HashMap<>();
     }
 
     static {
         users = new HashMap<>();
+    }
+    
+    public HashMap<String, User> getUsers(){
+        return this.users;
     }
 
     //need to use synchronise keyword

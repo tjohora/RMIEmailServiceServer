@@ -33,20 +33,33 @@ public class EmailStore {
         ArrayList<Email> spamMails = new ArrayList();
         ArrayList<Email> newMails = new ArrayList();
         sent.put(emailAddress, sentMails);
-        sent.put(emailAddress, revcivedMails);
-        sent.put(emailAddress, spamMails);
-        sent.put(emailAddress, newMails);
-        
+        received.put(emailAddress, revcivedMails);
+        spam.put(emailAddress, spamMails);
+        newEmails.put(emailAddress, newMails);
+
     }
 
     public EmailStore() {
-        ReadFromFile();
+
     }
+
+    public HashMap<String, ArrayList<Email>> getNewMail() {
+        return this.newEmails;
+    }
+
+    public HashMap<String, ArrayList<Email>> getSpamMail() {
+        return this.spam;
+    }
+
+    public HashMap<String, ArrayList<Email>> getRecEmails() {
+        return this.received;
+    }
+   
 
     public synchronized boolean sendEmail(String sender, String sendDate, String subject, String content, String receiver) {
         //SEND%%(email stuff)%%sender%%receiver
         //todo: loop to send to each receiver, catch is receiver does not exist and put into array
-        Email email = new Email(sender, sendDate, subject, content);
+        Email email = new Email(sender, sendDate, subject, content, receiver);
         sent.computeIfAbsent(sender, k -> new ArrayList<>()).add(email);
         //for each receiver, add new email(){}
         newEmails.computeIfAbsent(receiver, k -> new ArrayList<>()).add(email);
@@ -61,7 +74,11 @@ public class EmailStore {
     public ArrayList<Email> getAllUnreadEmails(String emailAddress) {
         ArrayList<Email> emails = new ArrayList(newEmails.get(emailAddress));
         //System.out.println("Test: "+emails.toString());
-        received.computeIfAbsent(emailAddress, k -> new ArrayList<>()).addAll(emails);
+        // received.computeIfAbsent(emailAddress, k -> new ArrayList<>()).addAll(emails);
+        for (int i = 0; i < emails.size(); i++) {
+            received.get(emailAddress).add(emails.get(i));
+        }
+
         newEmails.get(emailAddress).clear();
         return emails;
     }
@@ -74,6 +91,10 @@ public class EmailStore {
         return spam.get(emailAddress);
     }
 
+    public ArrayList<Email> getAllSentEmails(String emailAddress) {
+        return sent.get(emailAddress);
+    }
+
     public Email getSpecificEmail() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -84,9 +105,13 @@ public class EmailStore {
     }
 
     public synchronized boolean markEmailSpam(String emailAddress, int selectedEmail) {
-        spam.computeIfAbsent(emailAddress, k -> new ArrayList<>()).add(received.get(emailAddress).get(selectedEmail));
+        Email spamMail = received.get(emailAddress).get(selectedEmail);
+        if (spam.get(emailAddress).add(spamMail)) {
+
+            return true;
+        }
         received.get(emailAddress).remove(selectedEmail);
-        return true;
+        return false;
     }
 
     public synchronized int deleteAllSpam(String emailAddress) {
@@ -95,12 +120,18 @@ public class EmailStore {
         return spamSize;
     }
 
-    public void ReadFromFile() {
-        //code that will pull data out of a file and add them to the maps
+    public boolean ReadSpamFromFile(String emailAddress, Email spamToAdd) {
+        if (spam.get(emailAddress).add(spamToAdd)) {
+            return true;
+        }
+
+        return false;
+    }
+    
+    public void writeInEmails(String emailAddr,Email emailToAdd){
+        received.get(emailAddr).add(emailToAdd);
     }
 
-    public void WriteToFile() {
-        //code that will save the maps data to a file when server is closed
-    }
+    
 
 }

@@ -19,6 +19,11 @@ public class User {
         this.emailAddress = emailAddress;
         this.password = password;
     }
+
+    public User() {
+    }
+    
+    
     
     
 
@@ -69,7 +74,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "emailAddress=" + emailAddress + ", password=" + password + '}';
+        return emailAddress+"%%"+password;
     }
     
     
