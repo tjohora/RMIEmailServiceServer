@@ -28,6 +28,7 @@ public class UserStore {
 
         boolean checkUserName = false;
         String message = "";
+        EmailStore emails = new EmailStore();
 
         //Checking if the user already exists in the userStore
         if (users.get(emailAddress) != null) {
@@ -36,6 +37,7 @@ public class UserStore {
         } else {
             User user = new User(emailAddress, password);
             users.put(emailAddress, user);
+            emails.initalizeHashMaps(emailAddress);
             message = "Account created";
         }
 
