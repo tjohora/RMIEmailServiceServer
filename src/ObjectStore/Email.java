@@ -14,9 +14,16 @@ import java.util.Objects;
  */
 public class Email {
     private String sender;
-    private LocalDate sendDate; 
+    private String sendDate; 
     private String subject;
     private String content;
+
+    public Email(String sender, String sendDate, String subject, String content) {
+        this.sender = sender;
+        this.sendDate = sendDate;
+        this.subject = subject;
+        this.content = content;
+    }
 
     public String getSender() {
         return sender;
@@ -26,11 +33,11 @@ public class Email {
         this.sender = sender;
     }
 
-    public LocalDate getSendDate() {
+    public String getSendDate() {
         return sendDate;
     }
 
-    public void setSendDate(LocalDate sendDate) {
+    public void setSendDate(String sendDate) {
         this.sendDate = sendDate;
     }
 
