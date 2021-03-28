@@ -178,7 +178,7 @@ public class EmailService implements Runnable {
                         }
 
                         break;
-                    case "SEARCH_EMAILS":
+                    case "GET_SEARCH_EMAILS":
                         ArrayList<Email> searchEmails = new ArrayList();
                         searchEmails = emailStore.getSpecificEmail(components[1], components[2]);
                         response = "SEARCH_EMAILS%%";

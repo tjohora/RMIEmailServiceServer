@@ -106,7 +106,7 @@ public class Email {
         if (!Objects.equals(this.sendDate, other.sendDate)) {
             return false;
         }
-        return true;
+        return false;
     }
 
     @Override
