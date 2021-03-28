@@ -38,12 +38,12 @@ public class UserStore {
         //Checking if the user already exists in the userStore
         if (users.get(emailAddress) != null) {
             checkUserName = true;
-            message = "Email Adress already exists";
+            message = "FAILURE";
         } else {
             User user = new User(emailAddress, password);
             users.put(emailAddress, user);
             emails.initalizeHashMaps(emailAddress);
-            message = "Account created";
+            message = "SUCCESS";
         }
 
         //check if emailAddress (Key) exists

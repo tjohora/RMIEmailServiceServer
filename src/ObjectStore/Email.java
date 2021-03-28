@@ -119,6 +119,10 @@ public class Email {
         return sender + "%%" + sendDate + "%%" + subject + "%%" + content + "%%" + recepiant;
     }
     
+    public String toStringToclient() {
+        return sender + "%%" + sendDate + "%%" + subject + "%%" + content + "%%" + recepiant+ "¬¬";
+    }
+    
     
     
 }
