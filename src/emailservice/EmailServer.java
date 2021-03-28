@@ -49,7 +49,7 @@ public class EmailServer {
             }
             
             for (int i = 0; i < newMailToRead.size(); i++) {
-                emailstore.sendEmail(newMailToRead.get(i).getSender(), newMailToRead.get(i).getSendDate(), newMailToRead.get(i).getSubject(), newMailToRead.get(i).getContent(), newMailToRead.get(i).getRecepiant());
+                emailstore.writeEmailToHashMap(newMailToRead.get(i).getSender(), newMailToRead.get(i).getSendDate(), newMailToRead.get(i).getSubject(), newMailToRead.get(i).getContent(), newMailToRead.get(i).getRecepiant());
             }
             
             for (int i = 0; i < spamToRead.size(); i++) {

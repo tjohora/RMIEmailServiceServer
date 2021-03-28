@@ -55,14 +55,28 @@ public class EmailStore {
         return this.received;
     }
 
-    public synchronized boolean sendEmail(String sender, String sendDate, String subject, String content, String receiver) {
+    public synchronized boolean sendEmail(String sender, String sendDate, String subject, String content, ArrayList recipients) {
         //SEND%%(email stuff)%%sender%%receiver
         //todo: loop to send to each receiver, catch is receiver does not exist and put into array
+        for (int i = 0; i < recipients.size(); i++) {
+            Email email = new Email(sender, sendDate, subject, content, recipients.get(i).toString());
+            newEmails.get(recipients.get(i)).add(email);
+            //sent.get(sender).add(email);
+        }
+        Email email = new Email(sender, sendDate, subject, content, sender);
+        //TODO
+        sent.computeIfAbsent(sender, k -> new ArrayList<>()).add(email);
+
+        return true;
+    }
+
+    public void writeEmailToHashMap(String sender, String sendDate, String subject, String content, String receiver) {
+        //SEND%%(email stuff)%%sender%%receiver
+
         Email email = new Email(sender, sendDate, subject, content, receiver);
         sent.computeIfAbsent(sender, k -> new ArrayList<>()).add(email);
-        //for each receiver, add new email(){}
+
         newEmails.computeIfAbsent(receiver, k -> new ArrayList<>()).add(email);
-        return true;
     }
 
     public void test() {
@@ -140,7 +154,7 @@ public class EmailStore {
         if (spamSize == 0) {
             output = "SUCCESS";
         } else {
-             output = "FAILURE";
+            output = "FAILURE";
         }
         return output;
     }
@@ -156,8 +170,8 @@ public class EmailStore {
     public void writeInEmails(String emailAddr, Email emailToAdd) {
         received.get(emailAddr).add(emailToAdd);
     }
-    
-    public void emailToAddSent(String emailAddr,Email emailToAdd){
+
+    public void emailToAddSent(String emailAddr, Email emailToAdd) {
         sent.get(emailAddr).add(emailToAdd);
     }
 

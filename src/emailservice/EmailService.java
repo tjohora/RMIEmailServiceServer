@@ -40,6 +40,7 @@ public class EmailService implements Runnable {
     private ThreadGroup group;
 
     private String breakingChar = "%%";
+    private String breakingObjectChar = "¬¬";
 
     //EmailService newClient = new EmailService(group, clientLink.getInetAddress(), clientLink, emailstore, userstore);
     // public EmailService(ThreadGroup group, String name, Socket clientLink, EmailStore emailStore, UserStore userStore) {
@@ -93,17 +94,49 @@ public class EmailService implements Runnable {
                         break;
                     case "SEND_MAIL":
                         boolean sentStatus;
-                        //create an array of recivers and pass into the send email
-                        if (userStore.getUsers().containsKey(components[5])) {
-                            sentStatus = emailStore.sendEmail(components[1], components[2], components[3], components[4], components[5]);
-                        } else {
-                            sentStatus = false;
+                                           
+                        String[] recipients = components[5].split("¬¬");
+                       
+                        System.out.println(recipients.toString());
+                        System.out.println(recipients.length);
+                        ArrayList validUsers = new ArrayList<>();
+                        ArrayList<String> invalidUsers = new ArrayList<String>();
+                        boolean validFlag = false;
+                        boolean invalidFlag = false;
+                        
+                        for(int i = 0; i <= recipients.length - 1; i++){
+                            if(userStore.getUsers().containsKey(recipients[i])){
+                                validUsers.add(recipients[i]);
+                                validFlag = true;
+                                
+                            }else{
+                                invalidUsers.add(recipients[i]);
+                                
+                                invalidFlag = true;
+                            }
                         }
-                        if (sentStatus == true) {
+                        
+                        if(validFlag && !invalidFlag){
+                            //SUCCESS
+                            sentStatus = emailStore.sendEmail(components[1], components[2], components[3], components[4], validUsers);
                             response = "SUCCESS";
-                        } else {
+                        }else if(validFlag && invalidFlag){
+                            String invalidUserRes = "";
+                            invalidUserRes = invalidUsers.get(0);
+                            if(invalidUsers.size() > 1){
+                                for(int i = 1;i< invalidUsers.size()-1;i++ ){
+                                    invalidUserRes = invalidUserRes.concat(breakingObjectChar + invalidUsers.get(i));
+                                }
+                            }
+                            
+                            response = "PARTIAL_SUCCESS"+ breakingChar +invalidUserRes;
+                            //PARTIAL_SUCCESS
+                            
+                        }else{
+                            //FAILED
                             response = "FAILED";
                         }
+                       
 
                         break;
                     case "GET_UNREAD_EMAILS":
