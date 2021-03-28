@@ -141,7 +141,7 @@ public class Utils {
         ArrayList<Email> emailToAdd = new ArrayList();
         try {
 
-            BufferedReader in = new BufferedReader(new FileReader(filePath + "\\src\\Data\\recEmail.txt"));
+            BufferedReader in = new BufferedReader(new FileReader(filePath + "\\src\\Data\\spamMail.txt"));
 
             String line;
             while ((line = in.readLine()) != null) {

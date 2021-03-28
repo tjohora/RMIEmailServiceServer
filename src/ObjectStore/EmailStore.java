@@ -63,9 +63,11 @@ public class EmailStore {
             newEmails.get(recipients.get(i)).add(email);
             //sent.get(sender).add(email);
         }
-        Email email = new Email(sender, sendDate, subject, content, sender);
+        Email emailSent = new Email(sender, sendDate, subject, content, sender);
         //TODO
-        sent.computeIfAbsent(sender, k -> new ArrayList<>()).add(email);
+        System.out.println("Size:"+sent.get(sender).size());
+        sent.get(sender).add(emailSent);
+        System.out.println("Size:"+sent.get(sender).size());
 
         return true;
     }
@@ -124,8 +126,8 @@ public class EmailStore {
 
     public synchronized String deleteEmail(String emailAddress, int selectedEmail) {
         String output;
-        received.get(emailAddress).remove(selectedEmail);
-        if (received.get(emailAddress).get(selectedEmail) == null) {
+        if (received.get(emailAddress).get(selectedEmail) != null) {
+            received.get(emailAddress).remove(selectedEmail);
             output = "SUCCESS";
         } else {
             output = "FAILURE";
@@ -151,7 +153,7 @@ public class EmailStore {
         int spamSize = spam.get(emailAddress).size();
         spam.get(emailAddress).clear();
 
-        if (spamSize == 0) {
+        if (spam.get(emailAddress).size() == 0) {
             output = "SUCCESS";
         } else {
             output = "FAILURE";

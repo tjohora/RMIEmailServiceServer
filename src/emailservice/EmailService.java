@@ -89,9 +89,6 @@ public class EmailService implements Runnable {
                         response = userStore.register(components[1], components[2]);
 
                         break;
-                    case "LOGOUT":
-
-                        break;
                     case "SEND_MAIL":
                         boolean sentStatus;
 
@@ -139,12 +136,17 @@ public class EmailService implements Runnable {
 
                         break;
                     case "GET_SENT_EMAILS":
-                        ArrayList<Email> setnEmails = new ArrayList();
-                        setnEmails = emailStore.getAllUnreadEmails(components[1]);
+                        ArrayList<Email> sentEmails = new ArrayList();
+                        sentEmails = emailStore.getAllSentEmails(components[1]);
                         response = "GET_EMAILS%%";
-                        for (int i = 0; i < setnEmails.size(); i++) {
-                            response = response.concat(setnEmails.get(i).toStringToclient());
+                        if (sentEmails.size() == 0) {
+                            response = "NO_EMAILS";
+                        } else {
+                            for (int i = 0; i < sentEmails.size(); i++) {
+                                response = response.concat(sentEmails.get(i).toStringToclient());
+                            }
                         }
+                        System.out.println(response);
                         break;
 
                     case "GET_UNREAD_EMAILS":
@@ -152,20 +154,24 @@ public class EmailService implements Runnable {
                         unreadEmails = emailStore.getAllUnreadEmails(components[1]);
                         response = "GET_UNREAD_EMAILS%%";
                         if (unreadEmails.size() == 0) {
-                            response="NO_NEW_EMAILS";
-                        }else{
+                            response = "NO_NEW_EMAILS";
+                        } else {
                             for (int i = 0; i < unreadEmails.size(); i++) {
-                            response = response.concat(unreadEmails.get(i).toStringToclient());
+                                response = response.concat(unreadEmails.get(i).toStringToclient());
+                            }
                         }
-                        }
-                        
+
                         break;
                     case "GET_READ_EMAILS":
                         ArrayList<Email> readEmails = new ArrayList();
                         readEmails = emailStore.getAllReceivedEmails(components[1]);
                         response = "GET_EMAILS%%";
-                        for (int i = 0; i < readEmails.size(); i++) {
-                            response = response.concat(readEmails.get(i).toStringToclient());
+                        if (readEmails.size() == 0) {
+                            response = "NO_EMAILS";
+                        } else {
+                            for (int i = 0; i < readEmails.size(); i++) {
+                                response = response.concat(readEmails.get(i).toStringToclient());
+                            }
                         }
                         System.out.println(response);
                         break;
@@ -173,8 +179,12 @@ public class EmailService implements Runnable {
                         ArrayList<Email> spamEmails = new ArrayList();
                         spamEmails = emailStore.getAllSpamEmails(components[1]);
                         response = "GET_EMAILS%%";
-                        for (int i = 0; i < spamEmails.size(); i++) {
-                            response = response.concat(spamEmails.get(i).toStringToclient());
+                        if (spamEmails.size() == 0) {
+                            response = "NO_EMAILS";
+                        } else {
+                            for (int i = 0; i < spamEmails.size(); i++) {
+                                response = response.concat(spamEmails.get(i).toStringToclient());
+                            }
                         }
 
                         break;
@@ -182,8 +192,12 @@ public class EmailService implements Runnable {
                         ArrayList<Email> searchEmails = new ArrayList();
                         searchEmails = emailStore.getSpecificEmail(components[1], components[2]);
                         response = "SEARCH_EMAILS%%";
-                        for (int i = 0; i < searchEmails.size(); i++) {
-                            response = response.concat(searchEmails.get(i).toStringToclient());
+                        if (searchEmails.size() == 0) {
+                            response = "NO_EMAILS";
+                        } else {
+                            for (int i = 0; i < searchEmails.size(); i++) {
+                                response = response.concat(searchEmails.get(i).toStringToclient());
+                            }
                         }
                         break;
                     case "DELETE_EMAILS":
@@ -199,7 +213,7 @@ public class EmailService implements Runnable {
                 output.println(response);
                 output.flush();
             }
-          
+
             clientLink.close();
 
         } catch (IOException ex) {

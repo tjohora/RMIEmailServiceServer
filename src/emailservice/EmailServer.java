@@ -63,8 +63,8 @@ public class EmailServer {
 
             
             
-            System.out.println(emailstore.getAllSentEmails("Sean"));
-            System.out.println(emailstore.getAllSentEmails("Jim"));
+//            System.out.println(emailstore.getAllSentEmails("Sean"));
+//            System.out.println(emailstore.getAllSentEmails("Jim"));
             System.out.println("Now ready to accept requests.");
           
            
