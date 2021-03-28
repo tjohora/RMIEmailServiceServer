@@ -66,9 +66,9 @@ public class UserStore {
             passCheck = userCheck.getPassword();
 
             if (emailCheck.equals(emailAddress) && passCheck.endsWith(password)) {
-                message = "Login Successful";
+                message = "SUCCESS";
             } else {
-                message = "Invalid credentials please try again";
+                message = "FAILED";
             }
         }catch(NullPointerException  npe){
             message="User Not found";
