@@ -36,6 +36,8 @@ public class EmailService implements Runnable {
     
     private String name;
     private ThreadGroup group;
+    
+    private String breakingChar = "%%";
             
     
     
@@ -95,7 +97,19 @@ public class EmailService implements Runnable {
 
                         break;
                     case "SEND_MAIL":
-
+                        boolean sentStatus;
+                        //create an array of recivers and pass into the send email
+                        if(userStore.getUsers().containsKey(components[5])){
+                            sentStatus = emailStore.sendEmail(components[1], components[2], components[3], components[4], components[5]);
+                        }else{
+                            sentStatus = false;
+                        }               
+                        if(sentStatus == true){
+                            response = "SUCCESS";
+                        }else{
+                            response = "FAILED";
+                        }
+                        
                         break;
                     case "GET_UNREAD_EMAILS":
 
