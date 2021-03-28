@@ -61,15 +61,27 @@ public class UserStore {
         String passCheck;
         User userCheck;
         try {
-            userCheck = users.get(emailAddress);
-            emailCheck = userCheck.getEmailAddress();
-            passCheck = userCheck.getPassword();
-
-            if (emailCheck.equals(emailAddress) && passCheck.endsWith(password)) {
-                message = "SUCCESS";
-            } else {
+//            userCheck = users.get(emailAddress);
+//            emailCheck = userCheck.getEmailAddress();
+//            passCheck = userCheck.getPassword();
+            
+            if(users.containsKey(emailAddress)){
+                if(users.get(emailAddress).getPassword().equals(password)){
+                    message = "SUCCESS";
+                }else{
+                    message = "FAILED";
+                }
+            }else{
                 message = "FAILED";
             }
+
+//            if (emailCheck.equals(emailAddress) && passCheck.endsWith(password)) {
+//                message = "SUCCESS";
+//            } else if(!emailCheck.equals(emailAddress) || !passCheck.endsWith(password)) {
+//                message = "FAILED";
+//            }else{
+//                System.out.println("");
+//            }
         }catch(NullPointerException  npe){
             message="User Not found";
         }
