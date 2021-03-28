@@ -32,6 +32,7 @@ public class EmailServer {
         ArrayList<Email> newMailToRead = new ArrayList();
         ArrayList<Email> spamToRead = new ArrayList();
         ArrayList<Email> recEmailToRead = new ArrayList();
+        ArrayList<Email> sentEmailToRead = new ArrayList();
         
         try {
             ServerSocket connectionSocket = new ServerSocket(MY_PORT);
@@ -41,6 +42,7 @@ public class EmailServer {
             newMailToRead = reader.getNewEmails();
             spamToRead = reader.getSpamEmails();
             recEmailToRead = reader.gerRecEmails();
+
             
             for (int i = 0; i < usersToRead.size(); i++) {
                 userstore.register(usersToRead.get(i).getEmailAddress(), usersToRead.get(i).getPassword());
@@ -58,6 +60,11 @@ public class EmailServer {
                 emailstore.writeInEmails(recEmailToRead.get(i).getRecepiant(), recEmailToRead.get(i));
             }
             
+
+            
+            
+            System.out.println(emailstore.getAllSentEmails("Sean"));
+            System.out.println(emailstore.getAllSentEmails("Jim"));
             System.out.println("Now ready to accept requests.");
           
            

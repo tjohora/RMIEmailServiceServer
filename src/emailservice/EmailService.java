@@ -116,26 +116,36 @@ public class EmailService implements Runnable {
                         break;
                     case "GET_READ_EMAILS":
                         ArrayList<Email> readEmails = new ArrayList();
-                        unreadEmails = emailStore.getAllReceivedEmails(components[1]);
+                        readEmails = emailStore.getAllReceivedEmails(components[1]);
 
-                        for (int i = 0; i < unreadEmails.size(); i++) {
-                            response = response + unreadEmails.get(i).toStringToclient();
+                        for (int i = 0; i < readEmails.size(); i++) {
+                            response = response + readEmails.get(i).toStringToclient();
                         }
                         break;
                     case "GET_SPAM":
+                        ArrayList<Email> spamEmails = new ArrayList();
+                        spamEmails = emailStore.getAllSpamEmails(components[1]);
 
+                        for (int i = 0; i < spamEmails.size(); i++) {
+                            response = response + spamEmails.get(i).toStringToclient();
+                        }
                         break;
                     case "SEARCH_EMAILS":
+                        ArrayList<Email> searchEmails = new ArrayList();
+                        searchEmails = emailStore.getSpecificEmail(components[1],components[2]);
 
+                        for (int i = 0; i < searchEmails.size(); i++) {
+                            response = response + searchEmails.get(i).toStringToclient();
+                        }
                         break;
                     case "DELETE_EMAILS":
-
+                        response = emailStore.deleteEmail(components[1],Integer. parseInt(components[2]));
                         break;
                     case "MARK_SPAM":
-
+                        response = emailStore.markEmailSpam(components[1], Integer. parseInt(components[2]));
                         break;
                     case "DELETE_SPAM":
-
+                        response= emailStore.deleteAllSpam(components[1]);
                         break;
                 }
                 output.println(response);

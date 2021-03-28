@@ -54,7 +54,6 @@ public class EmailStore {
     public HashMap<String, ArrayList<Email>> getRecEmails() {
         return this.received;
     }
-   
 
     public synchronized boolean sendEmail(String sender, String sendDate, String subject, String content, String receiver) {
         //SEND%%(email stuff)%%sender%%receiver
@@ -95,29 +94,55 @@ public class EmailStore {
         return sent.get(emailAddress);
     }
 
-    public Email getSpecificEmail() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public ArrayList<Email> getSpecificEmail(String emailAddress, String subject) {
+        ArrayList<Email> emails = new ArrayList();
+        ArrayList<Email> emailsOut = new ArrayList();
+        emails = received.get(emailAddress);
+
+        for (int i = 0; i < emails.size(); i++) {
+            if (emails.get(i).getSubject().equalsIgnoreCase(subject)) {
+                emailsOut.add(emails.get(i));
+            }
+        }
+
+        return emailsOut;
     }
 
-    public synchronized boolean deleteEmail(String emailAddress, int selectedEmail) {
+    public synchronized String deleteEmail(String emailAddress, int selectedEmail) {
+        String output;
         received.get(emailAddress).remove(selectedEmail);
-        return true;
+        if (received.get(emailAddress).get(selectedEmail) == null) {
+            output = "SUCCESS";
+        } else {
+            output = "FAILURE";
+        }
+        return output;
     }
 
-    public synchronized boolean markEmailSpam(String emailAddress, int selectedEmail) {
+    public synchronized String markEmailSpam(String emailAddress, int selectedEmail) {
+        String output;
         Email spamMail = received.get(emailAddress).get(selectedEmail);
         if (spam.get(emailAddress).add(spamMail)) {
-
-            return true;
+            received.get(emailAddress).remove(selectedEmail);
+            output = "SUCCESS";
+        } else {
+            output = "FAILURE";
         }
-        received.get(emailAddress).remove(selectedEmail);
-        return false;
+
+        return output;
     }
 
-    public synchronized int deleteAllSpam(String emailAddress) {
+    public synchronized String deleteAllSpam(String emailAddress) {
+        String output;
         int spamSize = spam.get(emailAddress).size();
         spam.get(emailAddress).clear();
-        return spamSize;
+
+        if (spamSize == 0) {
+            output = "SUCCESS";
+        } else {
+             output = "FAILURE";
+        }
+        return output;
     }
 
     public boolean ReadSpamFromFile(String emailAddress, Email spamToAdd) {
@@ -127,11 +152,13 @@ public class EmailStore {
 
         return false;
     }
-    
-    public void writeInEmails(String emailAddr,Email emailToAdd){
+
+    public void writeInEmails(String emailAddr, Email emailToAdd) {
         received.get(emailAddr).add(emailToAdd);
     }
-
     
+    public void emailToAddSent(String emailAddr,Email emailToAdd){
+        sent.get(emailAddr).add(emailToAdd);
+    }
 
 }

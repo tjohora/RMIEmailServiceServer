@@ -27,6 +27,7 @@ import java.util.logging.Logger;
  * @author TJ
  */
 public class Utils {
+
     //Creating Variables for reading and writing to file
     private static String filePath = new File(".").getAbsoluteFile().toString();
     private static UserStore users = new UserStore();
@@ -35,11 +36,13 @@ public class Utils {
     private static HashMap<String, ArrayList<Email>> recivedToWrite;
     private static HashMap<String, ArrayList<Email>> spamMailToWrite;
 
+
     public Utils() {
     }
-    
+
     /**
      * Takes user data in from file
+     *
      * @return ArrayList<User>
      */
     public ArrayList<User> readUsers() {
@@ -65,8 +68,10 @@ public class Utils {
 
         return usersToAdd;
     }
+
     /**
      * Takes in all new Email's from File
+     *
      * @return ArrayList<Email>
      */
     public ArrayList<Email> getNewEmails() {
@@ -96,11 +101,15 @@ public class Utils {
 
         return emailToAdd;
     }
+    
+    
+
     /**
      * Gets all Received email's from file
+     *
      * @return ArrayList<Email>
      */
-    public ArrayList<Email> gerRecEmails(){
+    public ArrayList<Email> gerRecEmails() {
         ArrayList<Email> emailToAdd = new ArrayList();
         try {
 
@@ -161,9 +170,11 @@ public class Utils {
             FileWriter newMailWriter = new FileWriter(filePath + "\\src\\Data\\recEmail.txt");
             FileWriter userWriter = new FileWriter(filePath + "\\src\\Data\\Data.txt");
 
+
             spamMailToWrite = emails.getSpamMail();
             userToWrite = users.getUsers();
             recivedToWrite = emails.getRecEmails();
+            
             Iterator hmIterator = userToWrite.entrySet().iterator();
             Iterator hmIterator2 = spamMailToWrite.entrySet().iterator();
             Iterator hmIterator3 = recivedToWrite.entrySet().iterator();
@@ -178,7 +189,6 @@ public class Utils {
                 Map.Entry mapElement = (Map.Entry) hmIterator2.next();
                 ArrayList<Email> emails = (ArrayList<Email>) mapElement.getValue();
                 for (int i = 0; i < emails.size(); i++) {
-                   
 
                     spamWriter.write(emails.get(i).toStringWrite() + "\r\n");
                 }
@@ -189,7 +199,6 @@ public class Utils {
                 Map.Entry mapElement = (Map.Entry) hmIterator3.next();
                 ArrayList<Email> emails = (ArrayList<Email>) mapElement.getValue();
                 for (int i = 0; i < emails.size(); i++) {
-                    
 
                     newMailWriter.write(emails.get(i).toStringWrite() + "\r\n");
                 }
