@@ -94,91 +94,101 @@ public class EmailService implements Runnable {
                         break;
                     case "SEND_MAIL":
                         boolean sentStatus;
-                                           
+
                         String[] recipients = components[5].split("¬¬");
-                       
+
                         System.out.println(recipients.toString());
                         System.out.println(recipients.length);
                         ArrayList validUsers = new ArrayList<>();
                         ArrayList<String> invalidUsers = new ArrayList<String>();
                         boolean validFlag = false;
                         boolean invalidFlag = false;
-                        
-                        for(int i = 0; i <= recipients.length - 1; i++){
-                            if(userStore.getUsers().containsKey(recipients[i])){
+
+                        for (int i = 0; i <= recipients.length - 1; i++) {
+                            if (userStore.getUsers().containsKey(recipients[i])) {
                                 validUsers.add(recipients[i]);
                                 validFlag = true;
-                                
-                            }else{
+
+                            } else {
                                 invalidUsers.add(recipients[i]);
-                                
+
                                 invalidFlag = true;
                             }
                         }
-                        
-                        if(validFlag && !invalidFlag){
+
+                        if (validFlag && !invalidFlag) {
                             //SUCCESS
                             sentStatus = emailStore.sendEmail(components[1], components[2], components[3], components[4], validUsers);
                             response = "SUCCESS";
-                        }else if(validFlag && invalidFlag){
+                        } else if (validFlag && invalidFlag) {
                             String invalidUserRes = "";
                             invalidUserRes = invalidUsers.get(0);
-                            if(invalidUsers.size() > 1){
-                                for(int i = 1;i< invalidUsers.size()-1;i++ ){
+                            if (invalidUsers.size() > 1) {
+                                for (int i = 1; i < invalidUsers.size() - 1; i++) {
                                     invalidUserRes = invalidUserRes.concat(breakingObjectChar + invalidUsers.get(i));
                                 }
                             }
-                            
-                            response = "PARTIAL_SUCCESS"+ breakingChar +invalidUserRes;
+
+                            response = "PARTIAL_SUCCESS" + breakingChar + invalidUserRes;
                             //PARTIAL_SUCCESS
-                            
-                        }else{
+
+                        } else {
                             //FAILED
                             response = "FAILED";
                         }
-                       
 
                         break;
+                    case "GET_SENT_EMAILS":
+                        ArrayList<Email> setnEmails = new ArrayList();
+                        setnEmails = emailStore.getAllUnreadEmails(components[1]);
+                        response = "GET_EMAILS%%";
+                        for (int i = 0; i < setnEmails.size(); i++) {
+                            response = response.concat(setnEmails.get(i).toStringToclient());
+                        }
+                        break;
+
                     case "GET_UNREAD_EMAILS":
                         ArrayList<Email> unreadEmails = new ArrayList();
                         unreadEmails = emailStore.getAllUnreadEmails(components[1]);
-
+                        response = "GET_UNREAD_EMAILS%%";
                         for (int i = 0; i < unreadEmails.size(); i++) {
-                            response = response + unreadEmails.get(i).toStringToclient();
+                            response = response.concat(unreadEmails.get(i).toStringToclient());
                         }
                         break;
                     case "GET_READ_EMAILS":
                         ArrayList<Email> readEmails = new ArrayList();
                         readEmails = emailStore.getAllReceivedEmails(components[1]);
-
+                        response = "GET_EMAILS%%";
                         for (int i = 0; i < readEmails.size(); i++) {
-                            response = response + readEmails.get(i).toStringToclient();
+                            response = response.concat(readEmails.get(i).toStringToclient());
                         }
+                        System.out.println(response);
                         break;
                     case "GET_SPAM":
                         ArrayList<Email> spamEmails = new ArrayList();
                         spamEmails = emailStore.getAllSpamEmails(components[1]);
-
+                        response = "GET_EMAILS%%";
                         for (int i = 0; i < spamEmails.size(); i++) {
-                            response = response + spamEmails.get(i).toStringToclient();
+                            response = response.concat(spamEmails.get(i).toStringToclient());
                         }
+
                         break;
                     case "SEARCH_EMAILS":
                         ArrayList<Email> searchEmails = new ArrayList();
-                        searchEmails = emailStore.getSpecificEmail(components[1],components[2]);
+                        searchEmails = emailStore.getSpecificEmail(components[1], components[2]);
 
                         for (int i = 0; i < searchEmails.size(); i++) {
                             response = response + searchEmails.get(i).toStringToclient();
                         }
                         break;
                     case "DELETE_EMAILS":
-                        response = emailStore.deleteEmail(components[1],Integer. parseInt(components[2]));
+                        response = emailStore.deleteEmail(components[1], Integer.parseInt(components[2]));
                         break;
                     case "MARK_SPAM":
-                        response = emailStore.markEmailSpam(components[1], Integer. parseInt(components[2]));
+                        response = emailStore.markEmailSpam(components[1], Integer.parseInt(components[2]));
                         break;
                     case "DELETE_SPAM":
-                        response= emailStore.deleteAllSpam(components[1]);
+                        response = emailStore.deleteAllSpam(components[1]);
                         break;
                 }
                 output.println(response);
