@@ -35,7 +35,7 @@ public class EmailService implements Runnable {
     private UserStore userStore;
     private Scanner input;
     private PrintWriter output;
-
+    private Utils reader = new Utils();
     private String name;
     private ThreadGroup group;
 
@@ -151,9 +151,14 @@ public class EmailService implements Runnable {
                         ArrayList<Email> unreadEmails = new ArrayList();
                         unreadEmails = emailStore.getAllUnreadEmails(components[1]);
                         response = "GET_UNREAD_EMAILS%%";
-                        for (int i = 0; i < unreadEmails.size(); i++) {
-                            response = response.concat(unreadEmails.get(i).toStringToclient());
+                        if (unreadEmails.size() == 0) {
+                            response = "NO_NEW_EMAILS";
+                        } else {
+                            for (int i = 0; i < unreadEmails.size(); i++) {
+                                response = response.concat(unreadEmails.get(i).toStringToclient());
+                            }
                         }
+
                         break;
                     case "GET_READ_EMAILS":
                         ArrayList<Email> readEmails = new ArrayList();
@@ -194,6 +199,7 @@ public class EmailService implements Runnable {
                 output.println(response);
                 output.flush();
             }
+
             clientLink.close();
 
         } catch (IOException ex) {
