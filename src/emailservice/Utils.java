@@ -178,7 +178,7 @@ public class Utils {
                 Map.Entry mapElement = (Map.Entry) hmIterator2.next();
                 ArrayList<Email> emails = (ArrayList<Email>) mapElement.getValue();
                 for (int i = 0; i < emails.size(); i++) {
-                    System.out.println(emails.get(i).toStringWrite());
+                   
 
                     spamWriter.write(emails.get(i).toStringWrite() + "\r\n");
                 }
@@ -189,7 +189,7 @@ public class Utils {
                 Map.Entry mapElement = (Map.Entry) hmIterator3.next();
                 ArrayList<Email> emails = (ArrayList<Email>) mapElement.getValue();
                 for (int i = 0; i < emails.size(); i++) {
-                    System.out.println(emails.get(i).toStringWrite());
+                    
 
                     newMailWriter.write(emails.get(i).toStringWrite() + "\r\n");
                 }

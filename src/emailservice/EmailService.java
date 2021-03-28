@@ -87,7 +87,7 @@ public class EmailService implements Runnable {
                 String[] components = message.split("%%");
                 switch (components[0]) {
                     case "LOGIN":
-
+                        userStore.login(components[1], components[2]);
                         break;
                     case "REGISTER":
                         response = "ECHO%%Got your message, it was" + components[1];
