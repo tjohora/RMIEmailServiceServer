@@ -120,7 +120,7 @@ public class Email {
     }
     
     public String toStringToclient() {
-        return sender + "%%" + sendDate + "%%" + subject + "%%" + content + "%%" + recepiant+ "¬¬";
+        return sender + "¬¬" + sendDate + "¬¬" + subject + "¬¬" + content + "¬¬" + recepiant+ "%%";
     }
     
     
