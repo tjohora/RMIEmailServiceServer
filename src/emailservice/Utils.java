@@ -5,16 +5,17 @@
  */
 package emailservice;
 
-import ObjectStore.Email;
-import ObjectStore.EmailStore;
-import ObjectStore.User;
-import ObjectStore.UserStore;
+import Business.Email;
+import Business.EmailStore;
+import Business.User;
+import Business.UserStore;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,7 +38,8 @@ public class Utils {
     private static HashMap<String, ArrayList<Email>> spamMailToWrite;
 
 
-    public Utils() {
+    public Utils() throws RemoteException{
+        
     }
 
     /**

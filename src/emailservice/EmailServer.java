@@ -5,89 +5,65 @@
  */
 package emailservice;
 
-import ObjectStore.Email;
-import ObjectStore.EmailStore;
-import ObjectStore.User;
-import ObjectStore.UserStore;
+import Business.Email;
+import Business.EmailStore;
+import Business.User;
+import Business.UserStore;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author TJ
  */
 public class EmailServer {
-    
-    public static void main(String[] args) {
-        final int MY_PORT = 16000;
-        boolean continueRunning = true;
-        
-        EmailStore emailstore = new EmailStore();
-        UserStore userstore = new UserStore();
-        Utils reader = new Utils();
-        ArrayList<User> usersToRead = new ArrayList();
-        ArrayList<Email> newMailToRead = new ArrayList();
-        ArrayList<Email> spamToRead = new ArrayList();
-        ArrayList<Email> recEmailToRead = new ArrayList();
-        ArrayList<Email> sentEmailToRead = new ArrayList();
-        
+
+    public static void main(String[] args) throws RemoteException {
         try {
-            ServerSocket connectionSocket = new ServerSocket(MY_PORT);
-            ThreadGroup group = new ThreadGroup("Client threads");
-            group.setMaxPriority(Thread.currentThread().getPriority() - 1);
-            usersToRead = reader.readUsers();
-            newMailToRead = reader.getNewEmails();
-            spamToRead = reader.getSpamEmails();
-            recEmailToRead = reader.gerRecEmails();
-
-            
-            for (int i = 0; i < usersToRead.size(); i++) {
-                userstore.register(usersToRead.get(i).getEmailAddress(), usersToRead.get(i).getPassword());
-            }
-            
-            for (int i = 0; i < newMailToRead.size(); i++) {
-                emailstore.writeEmailToHashMap(newMailToRead.get(i).getSender(), newMailToRead.get(i).getSendDate(), newMailToRead.get(i).getSubject(), newMailToRead.get(i).getContent(), newMailToRead.get(i).getRecepiant());
-            }
-            
-            for (int i = 0; i < spamToRead.size(); i++) {
-                emailstore.ReadSpamFromFile(spamToRead.get(i).getRecepiant(), spamToRead.get(i));
-            }
-            
-            for (int i = 0; i < recEmailToRead.size(); i++) {
-                emailstore.writeInEmails(recEmailToRead.get(i).getRecepiant(), recEmailToRead.get(i));
-            }
+            UserStore userService = new UserStore();
+            EmailStore emailService = new EmailStore(userService);
             
 
-            
-            
-//            System.out.println(emailstore.getAllSentEmails("Sean"));
-//            System.out.println(emailstore.getAllSentEmails("Jim"));
-            System.out.println("Now ready to accept requests.");
-          
-           
-            
-            while (continueRunning) {
-                Socket clientLink = connectionSocket.accept();
-                //EmailService newClient = new EmailService(clientLink, emailstore, userstore);
-                //EmailService newClient = new EmailService(group, clientLink.getInetAddress()+"", clientLink, emailstore, userstore);
-                EmailService newClient = new EmailService(clientLink, emailstore, userstore);
-                //newClient.start();
-                Thread clientWrapper = new Thread(newClient);
-                clientWrapper.start();
-            }
-             
-            connectionSocket.close();
-            reader.writeToFile();
-            
-        } catch (SocketException ex) {
-            System.out.println("A problem occurred when creating the socket on port " + MY_PORT);
-            System.out.println(ex.getMessage());
-        } catch (IOException ex) {
-            System.out.println("A problem occurred when reading in a message from the stream.");
-            System.out.println(ex.getMessage());
+            int portNum = 16000;
+            startRegistry(portNum);
+
+            String registryPath = "rmi://localhost:" + portNum;
+            String EmailLabel = "/EmailService";
+            String UserLabel = "/UserService";
+
+            Naming.rebind(registryPath + EmailLabel, emailService);
+            Naming.rebind(registryPath + UserLabel, userService);
+
+        } catch (RemoteException ex) {
+            Logger.getLogger(EmailServer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(EmailServer.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private static void startRegistry(int RMIPortNum) throws RemoteException {
+        try {
+            Registry registry = LocateRegistry.getRegistry(RMIPortNum);
+            registry.list();
+
+        } catch (RemoteException ex) {
+            // No valid registry at that port.
+            System.out.println("RMI registry cannot be located at port " + RMIPortNum);
+
+            // Create a registry on the given port number
+            Registry registry = LocateRegistry.createRegistry(RMIPortNum);
+            System.out.println("RMI registry created at port " + RMIPortNum);
+        }
+
     }
 }
