@@ -46,12 +46,7 @@ public class EmailStore extends UnicastRemoteObject implements RMIEmailInterface
      * was valid, then add the email to the senders SENT Map. If all recipients
      * are invalid, then email will not be sent.
      *
-     * @param sender
-     * @param sendDate
-     * @param subject
-     * @param content
-     * @param recipients
-     * @return ArrayList
+     * 
      */
     @Override
     public ArrayList sendEmail(String sender, String sendDate, String subject, String content, ArrayList<String> recipients) throws RemoteException {
@@ -92,8 +87,7 @@ public class EmailStore extends UnicastRemoteObject implements RMIEmailInterface
      * RECEIVED Map. NEW_EMAILS of that user are then cleared of all content.
      * Returns all the new email that was found.
      *
-     * @param emailAddress
-     * @return ArrayList
+     
      */
     @Override
     public ArrayList<Email> getAllUnreadEmails(String emailAddress) {
@@ -112,8 +106,7 @@ public class EmailStore extends UnicastRemoteObject implements RMIEmailInterface
     /**
      * Gets all Received email of a user.
      *
-     * @param emailAddress
-     * @return ArrayList
+     
      */
     @Override
     public ArrayList<Email> getAllReceivedEmails(String emailAddress) {
@@ -126,8 +119,7 @@ public class EmailStore extends UnicastRemoteObject implements RMIEmailInterface
     /**
      * Gets all Spam email of a user.
      *
-     * @param emailAddress
-     * @return ArrayList
+     
      */
     @Override
     public ArrayList<Email> getAllSpamEmails(String emailAddress) {
@@ -140,8 +132,7 @@ public class EmailStore extends UnicastRemoteObject implements RMIEmailInterface
     /**
      * Gets all Sent email of a user.
      *
-     * @param emailAddress
-     * @return ArrayList
+ 
      */
     @Override
     public ArrayList<Email> getAllSentEmails(String emailAddress) {
@@ -157,8 +148,7 @@ public class EmailStore extends UnicastRemoteObject implements RMIEmailInterface
      * provided matches the Received email subject name, then add it to an
      * ArrayList. Returns all matching email.
      *
-     * @param emailAddress
-     * @return ArrayList
+   
      */
     @Override
     public ArrayList<Email> getSpecificEmail(String emailAddress, String subject) {
@@ -181,9 +171,7 @@ public class EmailStore extends UnicastRemoteObject implements RMIEmailInterface
     /**
      * Deletes a specified email.
      *
-     * @param emailAddress
-     * @param selectedEmail
-     * @return boolean
+    
      */
     @Override
     public boolean deleteEmail(String emailAddress, int selectedEmail) {
@@ -205,9 +193,7 @@ public class EmailStore extends UnicastRemoteObject implements RMIEmailInterface
     /**
      * Marks Email as spam.
      *
-     * @param emailAddress
-     * @param selectedEmail
-     * @return
+    
      */
     @Override
     public boolean markEmailSpam(String emailAddress, int selectedEmail) {
@@ -229,8 +215,7 @@ public class EmailStore extends UnicastRemoteObject implements RMIEmailInterface
     /**
      * Deletes all spam.
      *
-     * @param emailAddress
-     * @return String
+    
      */
     @Override
     public String deleteAllSpam(String emailAddress) {

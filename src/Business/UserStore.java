@@ -36,10 +36,7 @@ public class UserStore extends UnicastRemoteObject implements RMIUserInterface {
      * Method takes in emailAddress and password from the client. The Map is checked
      * if the email address is unique. If the Users.get is null, it means it 
      * is unique, so add the new user to the Map. Otherwise, return false.
-     * @param emailAddress
-     * @param password
-     * @return boolean
-     * @throws RemoteException 
+  
      */
     @Override
     public boolean register(String emailAddress, String password) throws RemoteException {
@@ -65,11 +62,7 @@ public class UserStore extends UnicastRemoteObject implements RMIUserInterface {
      * in the system. If the password provided matched the one in the system,
      * user is authenticated and is added to the Map of observers. Otherwise, return
      * false.
-     * @param emailAddress
-     * @param password
-     * @param client
-     * @return boolean
-     * @throws RemoteException 
+   
      */
     @Override
     public boolean login(String emailAddress, String password, RMIClientInterface client) throws RemoteException {
@@ -89,11 +82,7 @@ public class UserStore extends UnicastRemoteObject implements RMIUserInterface {
     }
 
     /**
-     * Logs user out. 
-     * @param emailAddress
-     * @param client
-     * @return
-     * @throws RemoteException 
+     
      */
     @Override
     public synchronized String logout(String emailAddress, RMIClientInterface client) throws RemoteException {

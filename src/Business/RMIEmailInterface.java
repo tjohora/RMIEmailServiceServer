@@ -5,7 +5,6 @@
  */
 package Business;
 
-import Business.Email;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
