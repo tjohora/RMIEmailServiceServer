@@ -31,8 +31,8 @@ public class Utils {
 
     //Creating Variables for reading and writing to file
     private static String filePath = new File(".").getAbsoluteFile().toString();
-    private static UserStore users = new UserStore();
-    private static EmailStore emails = new EmailStore();
+    private UserStore users = new UserStore();
+    private  EmailStore emails = new EmailStore();
     private static HashMap<String, User> userToWrite;
     private static HashMap<String, ArrayList<Email>> recivedToWrite;
     private static HashMap<String, ArrayList<Email>> spamMailToWrite;
