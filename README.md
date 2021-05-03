@@ -7,6 +7,8 @@ The building blocks of this email application consist of both server- side and c
 
 To comprehend and facilitate easy usage, the client-side components are built using JavaFX.
 
+![alt text](https://github.com/tjohora/RMIEmailServiceServer/blob/master/EmailRMIDesign.png "Logo Title Text 1")
+
 1. **Creating a request**
 
 on the client-side, a request sent to the server-side is handled by the request handler methods which communicate to the server-side through port. Java Remote Method Invocation (RMI) handles connectivity.
