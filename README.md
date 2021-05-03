@@ -10,7 +10,7 @@ To comprehend and facilitate easy usage, the client-side components are built us
 1. **Creating a request**
 
 on the client-side, a request sent to the server-side is handled by the request handler methods which communicate to the server-side through port. Java Remote Method Invocation (RMI) handles connectivity.
-
+```java
 String registryPath = &quot;rmi://localhost:&quot; + portNum;
 
 String EmailLabel = &quot;/EmailService&quot;;
@@ -22,11 +22,12 @@ emailService = (RMIEmailInterface) Naming.lookup(registryPath + EmailLabel);
 userService = (RMIUserInterface) Naming.lookup(registryPath + UserLabel);
 
 on the server-side exist the EmailLabel service and the UserLabel service available on the provided port number and the rmi url.
-
+```
 1. **The RMI Interfaces**
 
 These interfaces define the actions and what type of request can be sent to the services on the server-sides, The RMIEmailInterface contains methods that handles:
 
+```java
 sendEmail(String sender, String sendDate, String subject, String content, ArrayList\&lt;String\&gt; recipients) throws RemoteException;
 
 getAllUnreadEmails(String emailAddress) throws RemoteException.
@@ -44,5 +45,6 @@ deleteEmail(String emailAddress, int selectedEmail) throws RemoteException;
 markEmailSpam(String emailAddress, int selectedEmail) throws RemoteException;
 
 deleteAllSpam(String emailAddress) throws RemoteException;
+```
 
 these interfaces stand as proxy that tells the server what is requested and what needs to be returned, these requests and responses are controlled.
