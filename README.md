@@ -41,3 +41,19 @@ public interface RMIEmailInterface extends Remote {
 ```
 
 these interfaces stand as proxy that tells the server what is requested and what needs to be returned, these requests and responses are controlled.
+
+On the RMIUserInterface, the interface handles registration and login.
+
+```java
+public interface RMIUserInterface extends Remote {
+    //methods handles authentications and authorization remotetly
+    public boolean register(String emailAddress, String password) throws RemoteException;
+      //handles login and logout
+    public boolean login(String emailAddress, String password, RMIClientInterface client) throws RemoteException;
+    public String logout(String emailAddress, RMIClientInterface client) throws RemoteException;
+    //call_backs notifies users of new emails when the logged in
+    public boolean registerForCallback(String emailAddress, RMIClientInterface client) throws RemoteException;
+    public boolean unregisterForCallback(String emailAddress, RMIClientInterface client) throws RemoteException;
+}
+```
+
