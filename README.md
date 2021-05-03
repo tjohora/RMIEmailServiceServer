@@ -11,40 +11,31 @@ To comprehend and facilitate easy usage, the client-side components are built us
 
 on the client-side, a request sent to the server-side is handled by the request handler methods which communicate to the server-side through port. Java Remote Method Invocation (RMI) handles connectivity.
 ```java
-String registryPath = &quot;rmi://localhost:&quot; + portNum;
+ String registryPath = "rmi://localhost:" + portNum;
+            String EmailLabel = "/EmailService";
+            String UserLabel = "/UserService";
 
-String EmailLabel = &quot;/EmailService&quot;;
-
-String UserLabel = &quot;/UserService&quot;;
-
-emailService = (RMIEmailInterface) Naming.lookup(registryPath + EmailLabel);
-
-userService = (RMIUserInterface) Naming.lookup(registryPath + UserLabel);
-
-on the server-side exist the EmailLabel service and the UserLabel service available on the provided port number and the rmi url.
+            emailService = (RMIEmailInterface) Naming.lookup(registryPath + EmailLabel);
+            userService = (RMIUserInterface) Naming.lookup(registryPath + UserLabel);
 ```
+on the server-side exist the EmailLabel service and the UserLabel service available on the provided port number and the rmi url.
+
 1. **The RMI Interfaces**
 
 These interfaces define the actions and what type of request can be sent to the services on the server-sides, The RMIEmailInterface contains methods that handles:
 
 ```java
-sendEmail(String sender, String sendDate, String subject, String content, ArrayList\&lt;String\&gt; recipients) throws RemoteException;
-
-getAllUnreadEmails(String emailAddress) throws RemoteException.
-
-getAllReceivedEmails(String emailAddress) throws RemoteException.
-
-getAllSpamEmails(String emailAddress) throws RemoteException.
-
-getAllSentEmails(String emailAddress) throws RemoteException.
-
-getSpecificEmail(String emailAddress, String subject) throws RemoteException;
-
-deleteEmail(String emailAddress, int selectedEmail) throws RemoteException;
-
-markEmailSpam(String emailAddress, int selectedEmail) throws RemoteException;
-
-deleteAllSpam(String emailAddress) throws RemoteException;
+public interface RMIEmailInterface extends Remote {
+    public ArrayList sendEmail(String sender, String sendDate, String subject, String content, ArrayList<String> recipients) throws RemoteException;
+    public ArrayList getAllUnreadEmails(String emailAddress) throws RemoteException;
+    public ArrayList getAllReceivedEmails(String emailAddress) throws RemoteException;
+    public ArrayList getAllSpamEmails(String emailAddress) throws RemoteException;
+    public ArrayList getAllSentEmails(String emailAddress) throws RemoteException;
+    public ArrayList getSpecificEmail(String emailAddress, String subject) throws RemoteException;
+    public boolean deleteEmail(String emailAddress, int selectedEmail) throws RemoteException;
+    public boolean markEmailSpam(String emailAddress, int selectedEmail) throws RemoteException;
+    public String deleteAllSpam(String emailAddress) throws RemoteException;
+}
 ```
 
 these interfaces stand as proxy that tells the server what is requested and what needs to be returned, these requests and responses are controlled.
